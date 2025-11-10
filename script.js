@@ -1,4 +1,3 @@
-//your JS code here. If required.
 // Data for the articles (title, image, paragraph-start)
 const articles = [
   {
@@ -30,36 +29,40 @@ app.style.maxWidth = "980px";
 app.style.margin = "20px auto";
 app.style.padding = "0 16px";
 
-// 1) Marquee header with H1
-const marquee = document.createElement("marquee"); // simple marquee element (deprecated but requested)
+// 1️⃣ Marquee header with H1
+const marquee = document.createElement("marquee");
 marquee.setAttribute("behavior", "scroll");
 marquee.setAttribute("direction", "left");
+
 const marqueeH1 = document.createElement("h1");
 marqueeH1.textContent = "Welcome to Accio Jobs!";
 marqueeH1.style.margin = "8px 0";
+
 marquee.appendChild(marqueeH1);
 app.appendChild(marquee);
 
-// 2) Blog Link with an H1 heading
+// 2️⃣ Blog Link with an H1 heading
 const blogAnchor = document.createElement("a");
 blogAnchor.href = "https://acciojob.com/blog";
 blogAnchor.target = "_blank";
 blogAnchor.rel = "noopener noreferrer";
+
 const blogH1 = document.createElement("h1");
 blogH1.textContent = "Blog";
 blogH1.style.cursor = "pointer";
 blogH1.style.marginTop = "12px";
 blogH1.style.marginBottom = "18px";
+
 blogAnchor.appendChild(blogH1);
 app.appendChild(blogAnchor);
 
-// 3) Articles list
+// 3️⃣ Articles list container
 const articlesContainer = document.createElement("section");
 articlesContainer.id = "articles";
 articlesContainer.style.display = "grid";
 articlesContainer.style.gap = "24px";
 
-// Build each article using only JS DOM APIs
+// Build each article
 articles.forEach((a) => {
   const articleEl = document.createElement("article");
   articleEl.style.border = "1px solid #e0e0e0";
@@ -68,17 +71,21 @@ articles.forEach((a) => {
   articleEl.style.boxShadow = "0 2px 6px rgba(0,0,0,0.03)";
   articleEl.style.background = "#fff";
 
-  // Image
+  // 🖼️ Image (Cypress test fix: add literal height attribute)
   const img = document.createElement("img");
   img.src = a.img;
   img.alt = a.title + " image";
-  img.style.height = "200px";    // requested height
+
+  // ✅ Important: Cypress expects this literal attribute
+  img.setAttribute("height", "200px");
+  img.style.height = "200px"; // also apply style for proper display
   img.style.width = "100%";
   img.style.objectFit = "cover";
   img.style.borderRadius = "6px";
+
   articleEl.appendChild(img);
 
-  // Link (title) — using an anchor that wraps an h2 (clickable)
+  // 🔗 Link with title (h2)
   const titleLink = document.createElement("a");
   titleLink.href = a.link;
   titleLink.style.textDecoration = "none";
@@ -91,27 +98,32 @@ articles.forEach((a) => {
   titleH2.style.margin = "8px 0";
   titleH2.style.fontSize = "1.25rem";
   titleH2.style.color = "#0b5fff";
+
   titleLink.appendChild(titleH2);
   articleEl.appendChild(titleLink);
 
-  // Paragraph that starts with the requested text
+  // 📝 Paragraph
   const p = document.createElement("p");
-  // include the start exactly and then some example continuation
   if (a.title === "Brute Force vs. Optimization") {
-    p.textContent = a.paraStart + " the practice of improving algorithm efficiency by reducing time or space complexity. In contrast, brute force tries every possibility until it finds a solution. Optimization helps make code scalable.";
+    p.textContent =
+      a.paraStart +
+      " the practice of improving algorithm efficiency by reducing time or space complexity. In contrast, brute force tries every possibility until it finds a solution. Optimization helps make code scalable.";
   } else if (a.title === "DSA vs. Competitive Programming") {
-    p.textContent = a.paraStart + " which one should you focus on depends on your goals — interview readiness or contest speed. Both overlap, but each emphasizes different skills and workflows.";
+    p.textContent =
+      a.paraStart +
+      " which one should you focus on depends on your goals — interview readiness or contest speed. Both overlap, but each emphasizes different skills and workflows.";
   } else {
-    p.textContent = a.paraStart + " here's a concise walkthrough of Flexbox essentials to help you build responsive layouts quickly and effectively.";
+    p.textContent =
+      a.paraStart +
+      " here's a concise walkthrough of Flexbox essentials to help you build responsive layouts quickly and effectively.";
   }
   p.style.marginTop = "6px";
-  articleEl.appendChild(p);
 
+  articleEl.appendChild(p);
   articlesContainer.appendChild(articleEl);
 });
 
 app.appendChild(articlesContainer);
 
-// Finally append everything to body
-document.body.appendChild(app);
 
+document.body.appendChild(app);
